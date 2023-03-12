@@ -47,19 +47,38 @@ function App() {
   //   })
   // }
 
-  const [gift, setGift] = useState()
+  // const [gift, setGift] = useState()
   
-  const ramdomGift = () => {
-    const index = Math.floor(Math.random() * gifts.length)
+  // const ramdomGift = () => {
+  //   const index = Math.floor(Math.random() * gifts.length)
 
-    setGift(gifts[index]);
+  //   setGift(gifts[index]);
+  // }
+
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+
+  const handleSubmit = () => {
+    console.log({
+      name,
+      email
+    });
   }
 
   return (
     <div className="App" style={{ padding: 20 }}>
-      <h1>{gift || 'Chưa có phần thưởng'}</h1>
       {/* <button onClick={handleIncrease}>Increase</button> */}
-      <button onClick={ramdomGift}>Lấy Thưởng</button>
+      {/* <h1>{gift || 'Chưa có phần thưởng'}</h1> */}
+      {/* <button onClick={ramdomGift}>Lấy Thưởng</button> */}
+      <input 
+        value={name}
+        onChange={e => setName(e.target.value)}
+      />
+      <input 
+        value={email}
+        onChange={e => setEmail(e.target.value)}
+      />
+      <button onClick={handleSubmit}>Submit</button>
     </div>
   );
 }
