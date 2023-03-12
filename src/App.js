@@ -8,20 +8,20 @@ import { useState } from 'react';
 //   'RGB Keyboard'
 // ]
 
-const courses = [
-  {
-    id: 1,
-    name: 'HTML, CSS'
-  },
-  {
-    id: 2,
-    name: 'JavaScript'
-  },
-  {
-    id: 3,
-    name: 'ReactJS'
-  }
-]
+// const courses = [
+//   {
+//     id: 1,
+//     name: 'HTML, CSS'
+//   },
+//   {
+//     id: 2,
+//     name: 'JavaScript'
+//   },
+//   {
+//     id: 3,
+//     name: 'ReactJS'
+//   }
+// ]
 
 function App() {
 
@@ -80,26 +80,49 @@ function App() {
   //     email
   //   });
   // }
-  const [checked, setCheck] = useState([])
 
-  console.log(checked)
-  const handleCheck = (id) => {
-    setCheck(prev => {
-      const isChekced = checked.includes(id)
+  //* checkbox
+  // const [checked, setCheck] = useState([])
 
-      if(isChekced){
-        //Uncheck
-        return checked.filter(item => item !== id)
-      } else {
-        return [...prev, id]
-      }
-    })
-  }
+  // console.log(checked)
+  // const handleCheck = (id) => {
+  //   setCheck(prev => {
+  //     const isChekced = checked.includes(id)
+
+  //     if(isChekced){
+  //       //Uncheck
+  //       return checked.filter(item => item !== id)
+  //     } else {
+  //       return [...prev, id]
+  //     }
+  //   })
+  // }
+
+  // const handleSubmit = () => {
+  //   //Call API
+  //   console.log({ id: checked });
+  // }
+
+  
+  const [job, setJob] = useState('')
+  const [jobs, setJobs] = useState(() => {
+    const storageJobs = JSON.parse(localStorage.getItem('jobs'))
+
+    return (storageJobs ?? [])
+  })
 
   const handleSubmit = () => {
-    //Call API
-    console.log({ id: checked });
+    setJobs(prev => {
+      const newJob = [...prev, job]
+
+      const jsonJobs = JSON.stringify(newJob)
+      localStorage.setItem('jobs', jsonJobs)
+
+      return newJob
+    })
+    setJob('')
   }
+  
 
   return (
     <div className="App" style={{ padding: 20 }}>
@@ -129,7 +152,7 @@ function App() {
         </div>
       ))} */}
 
-      {courses.map(course => (
+      {/* {courses.map(course => (
         <div key={course.id}>
           <input
             type="checkbox"
@@ -139,7 +162,19 @@ function App() {
           {course.name}
         </div>
       ))}
-      <button onClick={handleSubmit}>Register</button>
+      <button onClick={handleSubmit}>Register</button> */}
+
+      <input 
+        value={job}
+        onChange={e => setJob(e.target.value)}
+      />
+      <button onClick={handleSubmit}>Add</button>
+      
+      <ul>
+        {jobs.map((job, index) => (
+          <li key={index}>{job}</li>
+        ))}
+      </ul>
     </div>
   );
 }
