@@ -23,7 +23,18 @@ const courses = [
 ]
 
 function App() {
-  const [checked, setChecked] = useState();
+  const [checked, setChecked] = useState([]);
+
+  const handleCheck = (id) => {
+    setChecked(prev => {
+      const isChecked = checked.includes(id);
+      if (isChecked) {
+        return checked.filter(item => item !== id);
+      } else {
+        return [...prev, id];
+      }
+    })
+  }
 
   const handleSubmit = () => {
     console.log({ id: checked });
@@ -34,9 +45,9 @@ function App() {
       {courses.map(course => (
         <div ket={course.id}>
           <input
-            type='radio'
-            checked={checked === course.id}
-            onChange={() => setChecked(course.id)}
+            type='checkbox'
+            checked={checked.includes(course.id)}
+            onChange={() => handleCheck(course.id)}
           />
           {course.name}
         </div>
