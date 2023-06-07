@@ -7,53 +7,38 @@ import { useState } from 'react';
 //   'RGB Keyboard'
 // ]
 
-const courses = [
-  {
-    id: 1,
-    name: 'JavaScript'
-  },
-  {
-    id: 2,
-    name: 'PHP'
-  },
-  {
-    id: 3,
-    name: 'Java'
-  }
-]
-
 function App() {
-  const [checked, setChecked] = useState([]);
+  const storageJobs = JSON.parse(localStorage.getItem('jobs'));
 
-  const handleCheck = (id) => {
-    setChecked(prev => {
-      const isChecked = checked.includes(id);
-      if (isChecked) {
-        return checked.filter(item => item !== id);
-      } else {
-        return [...prev, id];
-      }
-    })
-  }
+  const [job, setJob] = useState('');
+  const [jobs, setJobs] = useState(storageJobs);
 
   const handleSubmit = () => {
-    console.log({ id: checked });
+    setJobs(prev => {
+      const newJobs = [...prev, job];
+
+      const jsonJobs = JSON.stringify(newJobs);
+      localStorage.setItem('jobs', jsonJobs);
+
+      return newJobs;
+    });
+    setJob('');
   }
 
   return (
     <div className="App" style={{ padding: 20 }}>
-      {courses.map(course => (
-        <div ket={course.id}>
-          <input
-            type='checkbox'
-            checked={checked.includes(course.id)}
-            onChange={() => handleCheck(course.id)}
-          />
-          {course.name}
-        </div>
-      ))}
+      <input
+        value={job}
+        onChange={e => setJob(e.target.value)}
+      />
 
-      <button onClick={handleSubmit}>Register</button>
+      <ul>
+        {jobs.map((job, index) => (
+          <li key={index}>{job}</li>
+        ))}
+      </ul>
+
+      <button onClick={handleSubmit}>Add</button>
     </div>
   );
 }
