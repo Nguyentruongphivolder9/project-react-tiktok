@@ -8,10 +8,12 @@ import { useState } from 'react';
 // ]
 
 function App() {
-  const storageJobs = JSON.parse(localStorage.getItem('jobs'));
-
   const [job, setJob] = useState('');
-  const [jobs, setJobs] = useState(storageJobs);
+  const [jobs, setJobs] = useState(() => {
+    const storageJobs = JSON.parse(localStorage.getItem('jobs'));
+
+    return storageJobs ?? [];
+  });
 
   const handleSubmit = () => {
     setJobs(prev => {
