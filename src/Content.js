@@ -1,75 +1,69 @@
-import { useEffect } from 'react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 
 const tabs = ['comments', 'posts', 'users'];
 
 function Content() {
-    const [title, setTitle] = useState('');
     const [datas, setDatas] = useState([]);
     const [type, setType] = useState('comments');
-    const [showGoToTop, setshowGoToTop] = useState(false)
+    const [showGoToTop, setShowGoToTop] = useState(false);
 
-    useEffect(() => {
+    useEffect(() =>{
         fetch(`https://jsonplaceholder.typicode.com/${type}`)
-            .then((res) => res.json())
+            .then(res => res.json())
             .then(datas => {
                 setDatas(datas);
             })
-    }, [type])
+    }, [type]);
 
     useEffect(() => {
         const handleScroll = () => {
             if(window.scrollY >= 200){
-                setshowGoToTop(true);
+                setShowGoToTop(true);
             } else {
-                setshowGoToTop(false);
+                setShowGoToTop(false);
             }
         }
 
         window.addEventListener('scroll', handleScroll);
-        // console.log('addEventListener');
-        // // Clearup function
-        // return () => {
-        //     window.removeEventListener('scroll', handleScroll);
-        //     console.log('removeEventListener');
-        // }
+        console.log('addEventListener');
+
+        // clearup function
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+            console.log('removeEventListener');
+        }
     }, [])
 
     return (
         <div>
-
             {tabs.map(tab => (
                 <button 
                     key={tab}
                     style={type === tab ? {
                         color: '#fff',
                         background: '#333'
-                    } : {} }
+                    } : {}}
                     onClick={() => setType(tab)}
                 >
                     {tab}
                 </button>
             ))}
-            <input 
-                value={title}
-                onChange={e => setTitle(e.target.value)}
-            />
+            
             <ul>
                 {datas.map(data => (
-                    <li key={data.id}>
-                         {data.title || data.name}
-                    </li>
+                    <li key={data.id}>{data.title || data.name}</li>
                 ))}
             </ul>
-            <h2>HELLO MY FRIENT</h2>
             {showGoToTop && (
-                <button style={{
-                    position: 'fixed',
-                    right: 20,
-                    bottom: 20
-                }}>
-                    Go to top
+                <button 
+                    style={{
+                        position: 'fixed',
+                        right: 20,
+                        bottom: 20
+                    }}
+                >
+                    go to top
                 </button>
             )}
         </div>
