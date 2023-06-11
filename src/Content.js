@@ -7,6 +7,7 @@ function Content() {
     const [datas, setDatas] = useState([]);
     const [type, setType] = useState('comments');
     const [showGoToTop, setShowGoToTop] = useState(false);
+    const [width, setWidth] = useState(window.innerWidth);
 
     useEffect(() =>{
         fetch(`https://jsonplaceholder.typicode.com/${type}`)
@@ -35,8 +36,22 @@ function Content() {
         }
     }, [])
 
+    useEffect(() => {
+        const handleResize = () => {
+            setWidth(window.innerWidth);
+        }
+
+        window.addEventListener('resize', handleResize);
+
+        // clearup function
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        }
+    }, [])
+
     return (
         <div>
+            <h1>{width}</h1>
             {tabs.map(tab => (
                 <button 
                     key={tab}
