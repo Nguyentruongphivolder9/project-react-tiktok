@@ -7,9 +7,8 @@ function Content() {
     const [datas, setDatas] = useState([]);
     const [type, setType] = useState('comments');
     const [showGoToTop, setShowGoToTop] = useState(false);
-    const [width, setWidth] = useState(window.innerWidth);
-
-    useEffect(() =>{
+    const [clock, setClock] = useState(180);
+    useEffect(() => {
         fetch(`https://jsonplaceholder.typicode.com/${type}`)
             .then(res => res.json())
             .then(datas => {
@@ -19,7 +18,7 @@ function Content() {
 
     useEffect(() => {
         const handleScroll = () => {
-            if(window.scrollY >= 200){
+            if (window.scrollY >= 200) {
                 setShowGoToTop(true);
             } else {
                 setShowGoToTop(false);
@@ -37,23 +36,18 @@ function Content() {
     }, [])
 
     useEffect(() => {
-        const handleResize = () => {
-            setWidth(window.innerWidth);
-        }
+        const intervalId = setInterval(() => {
+            setClock(prev => prev - 1);
+        }, 1000)
 
-        window.addEventListener('resize', handleResize);
-
-        // clearup function
-        return () => {
-            window.removeEventListener('resize', handleResize);
-        }
+        return () => clearInterval(intervalId);
     }, [])
 
     return (
         <div>
-            <h1>{width}</h1>
+            <h1>{clock}</h1>
             {tabs.map(tab => (
-                <button 
+                <button
                     key={tab}
                     style={type === tab ? {
                         color: '#fff',
@@ -64,14 +58,14 @@ function Content() {
                     {tab}
                 </button>
             ))}
-            
+
             <ul>
                 {datas.map(data => (
                     <li key={data.id}>{data.title || data.name}</li>
                 ))}
             </ul>
             {showGoToTop && (
-                <button 
+                <button
                     style={{
                         position: 'fixed',
                         right: 20,
