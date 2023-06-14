@@ -1,17 +1,25 @@
-import { useState } from 'react';
 import Content from './Content';
+import { useState } from 'react';
 
 function App() {
-  const [show, setShow] = useState(false);
+  const  [count, setCount] = useState(0);
+  const  [count2, setCount2] = useState(0);
+  
+  const handelCount = () => {
+    setCount(prev => prev + 1);
+  }
 
-  const handleClick = () => {
-    setShow(!show)
+  const handelCount2 = () => {
+    setCount2(prev => prev + 1);
   }
 
   return (
-    <div className="App" style={{ padding: 20 }}>
-      <button onClick={handleClick}>Toggle</button>
-      {show && <Content />}
+    <div className="App" style={{ padding: '10px 20px' }}>
+      <Content count={count}/>
+      <h1>{count}</h1>
+      <h1>{count2}</h1>
+      <button onClick={handelCount}>Increat</button>
+      <button onClick={handelCount2}>Increat2</button>
     </div>
   );
 }
