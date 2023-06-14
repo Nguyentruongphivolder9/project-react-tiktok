@@ -1,11 +1,14 @@
 import { memo } from 'react'
 
-function Content({ count }) {
-    
+function Content({ onIncrease }) {
+
     console.log("re-render");
 
     return (
-        <h1>Hello My Friends {count}</h1>
+        <>
+            <h1>Hello My Friends</h1>
+            <button onClick={onIncrease}>Increat</button>
+        </>
     )
 }
 
