@@ -1,17 +1,28 @@
-import { useState } from 'react';
-import Content from './Content';
+import { useEffect, useRef } from "react";
+
+import Video from "./Video";
 
 function App() {
-  const [show, setShow] = useState(false);
 
-  const handleClick = () => {
-    setShow(!show)
+  const videoRef = useRef();
+
+  useEffect(() => {
+    console.log(videoRef.current);
+  })
+
+  const handlePlay = () => {
+    videoRef.current.play();
+  }
+  
+  const handlePause = () => {
+    videoRef.current.pause();
   }
 
   return (
     <div className="App" style={{ padding: 20 }}>
-      <button onClick={handleClick}>Toggle</button>
-      {show && <Content />}
+      <Video ref={videoRef} />
+      <button onClick={handlePlay}>Play</button>
+      <button onClick={handlePause}>Pause</button>
     </div>
   );
 }
