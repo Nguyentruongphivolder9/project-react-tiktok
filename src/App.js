@@ -1,17 +1,20 @@
-import { useState } from 'react';
-import Content from './Content';
+import { useStore, actions } from './store';
 
 function App() {
-  const [show, setShow] = useState(false);
+  const [state, dispatch] = useStore();
 
-  const handleClick = () => {
-    setShow(!show)
-  }
+  const { todos, todoInput } = state;
 
   return (
     <div className="App" style={{ padding: 20 }}>
-      <button onClick={handleClick}>Toggle</button>
-      {show && <Content />}
+      <input 
+        value={todoInput}
+        placeholder='Enter todo...'
+        onChange={e => {
+          dispatch(actions.setTodoInput(e.target.value))
+        }}
+
+      />
     </div>
   );
 }
